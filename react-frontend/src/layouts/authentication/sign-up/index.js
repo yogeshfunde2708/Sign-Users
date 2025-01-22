@@ -33,7 +33,7 @@ const Register = () => {
         register(data.user, data.token);
         setTimeout(() => {
           navigate("/");
-        }, 5000);
+        }, 2000);
       }
     } catch (error) {
       let message = "Something went wrong!!";
