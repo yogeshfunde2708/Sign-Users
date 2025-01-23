@@ -1,7 +1,7 @@
 import React from "react";
 import useForm from "../../../hooks/useForm";
 import { GuestApi } from "../../../utils/FunctionAPI";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -150,6 +150,11 @@ const Register = () => {
                     </button>
                   </div>
                 </form>
+                <div className="mt-3 text-center">
+                  <p>
+                  Already have an account? <Link to="/sign-in">Sign Up</Link>
+                  </p>
+                </div>
               </div>
             </div>
           </div>

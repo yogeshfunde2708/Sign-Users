@@ -6,6 +6,7 @@ AuthContext.displayName = "AuthContext";
 
 function authReducer(state, action) {
   switch (action.type) {
+    case "LOGIN":
     case "REGISTER":
       return {
         ...state,
@@ -41,11 +42,17 @@ function AuthProvider({ children }) {
 
     if (token && user) {
       console.log("Dispatching LOGIN action");
-      dispatch({ type: "REGISTER", payload: { token, user } });
+      dispatch({ type: "LOGIN", payload: { token, user } });
     } else {
       console.log("No auth data in localStorage");
     }
   }, []);
+
+  const login = (user, token) => {
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("authenticatedUser", JSON.stringify(user));
+    dispatch({ type: "LOGIN", payload: { user, token } });
+  };
 
   const register = (user, token) => {
     localStorage.setItem("authToken", token);
@@ -66,6 +73,7 @@ function AuthProvider({ children }) {
   const value = useMemo(
     () => ({
       ...state,
+      login,
       register,
       setAuthToken,
       setAuthenticatedUser,
