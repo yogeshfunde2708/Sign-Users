@@ -6,6 +6,7 @@ import AuthProvider from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import Sidebar from "./views/Sidebar/Sidebar";
 import UsersData from "./views/Users/UsersData";
+import CreateorUpdateUser from "./views/Users/CreateorUpdateUser";
 
 function App() {
   const location = useLocation();
@@ -48,6 +49,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <UsersData />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/create-user"
+              element={
+                <ProtectedRoute>
+                  <CreateorUpdateUser />
                 </ProtectedRoute>
               }
             />
