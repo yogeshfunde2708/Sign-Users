@@ -1,0 +1,33 @@
+
+import { Link } from "react-router-dom";
+import { MdDashboard } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
+
+function Sidebar() {
+  return (
+    <div className="d-flex flex-column justify-content-between p-4 h-100">
+      <div>
+        <Link to="/" className="d-flex " style={{ textDecoration: 'none' }}>
+          <span className="fs-4 align-items-center">SignUsers</span>
+        </Link>
+        <hr className="text-secondary mt-2" />
+        <ul className="nav nav-pills flex-column p-0 m-0">
+          <li className="nav-item p-1">
+            <Link to="/" className="nav-link text-white">
+              <MdDashboard />
+              <span className="ms-2"> Dashboard</span>
+            </Link>
+          </li>
+          <li className="nav-item p-1">
+            <Link to="user" className="nav-link text-white">
+              <FaUser />
+              <span className="ms-2"> Users</span>
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export default Sidebar;
