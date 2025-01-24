@@ -19,7 +19,7 @@ function Sidebar() {
             </Link>
           </li>
           <li className="nav-item p-1">
-            <Link to="user" className="nav-link text-white">
+            <Link to="usersdata" className="nav-link text-white">
               <FaUser />
               <span className="ms-2"> Users</span>
             </Link>

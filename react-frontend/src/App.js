@@ -5,14 +5,13 @@ import SignIn from "./layouts/authentication/sign-in";
 import AuthProvider from "./AuthContext";
 import ProtectedRoute from "./ProtectedRoute";
 import Sidebar from "./views/Sidebar/Sidebar";
+import UsersData from "./views/Users/UsersData";
 
 function App() {
   const location = useLocation();
 
   const isAuthRoute =
     location.pathname === "/sign-in" || location.pathname === "/sign-up";
-
-  const isDashboardRoute = location.pathname === "/";
 
   return (
     <AuthProvider>
@@ -26,28 +25,34 @@ function App() {
           </div>
         )}
 
-        {isDashboardRoute ? (
-          <div
-            className="content flex-grow-1"
-
-          >
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <ProtectedRoute>
-                    <Dashboard />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </div>
-        ) : (
+        <div
+          className={`content flex-grow-1`}
+          style={{
+            marginLeft: !isAuthRoute ? "225px" : "0", 
+            padding: !isAuthRoute ? "20px" : "0",
+          }}
+        >
           <Routes>
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/sign-up" element={<SignUp />} />
+            <Route
+              path="/"
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/usersdata"
+              element={
+                <ProtectedRoute>
+                  <UsersData />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
-        )}
+        </div>
       </div>
     </AuthProvider>
   );
