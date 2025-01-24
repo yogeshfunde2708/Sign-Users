@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -49,6 +51,28 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function saveUserData($data, $id = 0)
+    {
+        $result = false;
+        try {
+            DB::beginTransaction();
+            $result = User::updateOrCreate(['id' => $id], $data);
+
+            if ($result) {
+                DB::commit();
+            } else {
+                DB::rollBack();
+            }
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error($th);
+            $result = false;
+            throw $th;
+        }
+
+        return $result;
     }
 
 

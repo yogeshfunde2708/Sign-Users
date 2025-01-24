@@ -1,7 +1,52 @@
 import React from "react";
+import useForm from "../../hooks/useForm";
+import { AuthApi } from "../../utils/FunctionAPI";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const formObj = {
+  name: "",
+  email: "",
+  username: "",
+  password: "",
+  password_confirmation: "",
+};
 
 function CreateorUpdateUser() {
+  const navigate = useNavigate();
+
+  const submitForm = async () => {
+    try {
+      const formData = new FormData();
+      for (let key in values) {
+        formData.append(key, values[key] !== null ? values[key] : "");
+      }
+      const { data } = await AuthApi.post(`/save-user-data`, formData);
+      if (data && data.status && data.user) {
+        let message = "User saved Successfully!";
+        toast.success(message);
+        setTimeout(() => {
+          navigate(-1);
+        }, 2000);
+      }
+    } catch (error) {
+      let message = "Something went wrong!";
+      if (error?.response?.data) {
+        let responseMsg = error.response.data.message
+          ? error.response.data.message
+          : null;
+        message = responseMsg ? responseMsg : message;
+      }
+      toast.error(message);
+    }
+  };
+
+  const { handleChange, handleSubmit, values } = useForm(submitForm, formObj);
   return (
+    <>
+    <ToastContainer position="top-right" autoClose={5000} />
     <div
       className="createusers-data-container d-flex flex-column"
       style={{
@@ -29,6 +74,8 @@ function CreateorUpdateUser() {
                 className="form-control"
                 id="name"
                 name="name"
+                value={values.name ? values.name : ""}
+                onChange={handleChange}
               />
             </div>
             <div className="col-md-6 mb-3">
@@ -40,10 +87,11 @@ function CreateorUpdateUser() {
                 className="form-control"
                 id="email"
                 name="email"
+                value={values.email ? values.email : ""}
+                onChange={handleChange}
               />
             </div>
           </div>
-
           <div className="row">
             <div className="col-md-6 mb-3">
               <label htmlFor="username" className="form-label">
@@ -54,6 +102,8 @@ function CreateorUpdateUser() {
                 className="form-control"
                 id="username"
                 name="username"
+                lue={values.username ? values.username : ""}
+                onChange={handleChange}
               />
             </div>
             <div className="col-md-6 mb-3">
@@ -65,16 +115,14 @@ function CreateorUpdateUser() {
                 className="form-control"
                 id="password"
                 name="password"
+                value={values.password ? values.password : ""}
+                onChange={handleChange}
               />
             </div>
           </div>
-
           <div className="row">
             <div className="col-md-6 mb-3">
-              <label
-                htmlFor="password_confirmation"
-                className="form-label"
-              >
+              <label htmlFor="password_confirmation" className="form-label">
                 Confirm Password
               </label>
               <input
@@ -82,18 +130,28 @@ function CreateorUpdateUser() {
                 className="form-control"
                 id="password_confirmation"
                 name="password_confirmation"
+                value={
+                  values.password_confirmation
+                    ? values.password_confirmation
+                    : ""
+                }
+                onChange={handleChange}
               />
             </div>
           </div>
-
           <div className="d-flex justify-content-end">
-            <button type="submit" className="btn btn-primary">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              onClick={handleSubmit}
+            >
               Submit
             </button>
           </div>
         </form>
       </div>
     </div>
+    </>
   );
 }
 
