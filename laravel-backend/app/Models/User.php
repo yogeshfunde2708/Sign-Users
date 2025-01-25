@@ -90,6 +90,4 @@ class User extends Authenticatable
             ->appends(request()->query());
         return $users;
     }
-
-
 }

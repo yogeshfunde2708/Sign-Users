@@ -15,6 +15,7 @@ Route::group(["middleware" => [ForceJson::class]], function () {
     Route::group(["middleware" => ["auth:api"]], function () {
         Route::post("/save-user-data", [UsersController::class, "saveUserData"]);
         Route::get("/users-list", [UsersController::class, "getUsersList"]);
+        Route::delete("/delete-user/{id}", [UsersController::class, "deleteUser"]);
     });
 
 });

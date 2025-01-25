@@ -50,6 +50,20 @@ function UsersData() {
       toast.error(message);
     }
   };
+  
+  const deleteUser = async (id) => {
+    try {
+      const { data } = await AuthApi.delete(`/delete-user/${id}`);
+      if (data?.status) {
+        toast.success("User deleted successfully!");
+        getUsers();
+      }
+    } catch (error) {
+      const message =
+        error?.response?.data?.message || "Something went wrong!";
+      toast.error(message);
+    }
+  };
 
   useEffect(() => {
     getUsers();
@@ -108,6 +122,7 @@ function UsersData() {
                     </Link>
                     <button
                       className="btn btn-danger btn-sm"
+                      onClick={() => deleteUser(user.id)}
                     >
                       Delete
                     </button>

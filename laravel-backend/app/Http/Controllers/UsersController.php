@@ -73,4 +73,22 @@ class UsersController extends Controller
         }
         return response($result, $status);
     }
+
+    public function deleteUser($id)
+    {
+        $result = [];
+        $result['status'] = false;
+        $status = $this->statusCodeArr["server_error"];
+        try {
+            if (User::where('id', $id)->delete()) {
+                $result['status'] = true;
+                $status = $this->statusCodeArr["ok"];
+            } else {
+                $result['status'] = false;
+            }
+        } catch (\Exception $e) {
+            $result["message"] = $e->getMessage();
+        }
+        return response($result, $status);
+    }
 }
