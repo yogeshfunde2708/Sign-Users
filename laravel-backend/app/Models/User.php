@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class User extends Authenticatable
 {
@@ -73,6 +74,21 @@ class User extends Authenticatable
         }
 
         return $result;
+    }
+
+    public function getAllUsers($per_page = 25)
+    {
+        $users = QueryBuilder::for(User::class)
+            ->select(
+                'id',
+                'name',
+                'email',
+                'username',
+            )
+            ->allowedSorts('name', 'email', 'username')
+            ->paginate($per_page ?: 25)
+            ->appends(request()->query());
+        return $users;
     }
 
 

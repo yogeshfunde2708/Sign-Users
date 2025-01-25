@@ -54,4 +54,23 @@ class UsersController extends Controller
 
         $request->validate($rules);
     }
+
+    public function getUsersList(Request $request)
+    {
+        $result = [];
+        $result['status'] = false;
+        $status = $this->statusCodeArr["server_error"];
+        try {
+            $per_page = $request->query('per_page', 25);
+
+            if ($users = $this->user->getAllUsers($per_page)) {
+                $result["users"] = $users;
+                $result['status'] = true;
+                $status = $this->statusCodeArr["ok"];
+            }
+        } catch (\Exception $e) {
+            $result["message"] = $e->getMessage();
+        }
+        return response($result, $status);
+    }
 }
