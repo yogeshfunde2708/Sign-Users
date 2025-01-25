@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useReducer, useMemo, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+  useMemo,
+  useEffect,
+} from "react";
 import PropTypes from "prop-types";
 
 const AuthContext = createContext();
@@ -13,35 +19,36 @@ function authReducer(state, action) {
         isAuthenticated: true,
         authToken: action.payload.token,
         authenticatedUser: action.payload.user,
+        isLoading: false,
       };
     case "SET_AUTH_TOKEN":
       return { ...state, authToken: action.payload };
     case "SET_AUTHENTICATED_USER":
       return { ...state, authenticatedUser: action.payload };
+    case "AUTH_COMPLETE":
+      return { ...state, isLoading: false };
     default:
       throw new Error(`Unhandled action type: ${action.type}`);
   }
 }
 
-// Initial state for the authentication context
 const initialState = {
   isAuthenticated: false,
   authToken: null,
   authenticatedUser: null,
+  isLoading: true,
 };
 
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Check if there is data in localStorage on initial load
   useEffect(() => {
     const token = localStorage.getItem("authToken");
-    const user = JSON.parse(localStorage.getItem("authenticatedUser"));
-    console.log("Token:", token);
-    console.log("User:", user);
+    const user = JSON.parse(localStorage.getItem("authenticatedUser"))
+    ? JSON.parse(localStorage.getItem("authenticatedUser"))
+    : null;
 
     if (token && user) {
-      console.log("Dispatching LOGIN action");
       dispatch({ type: "LOGIN", payload: { token, user } });
     } else {
       console.log("No auth data in localStorage");

@@ -3,9 +3,15 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 function ProtectedRoute({ children }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, authToken, isLoading } = useAuth();
 
-  if (!isAuthenticated) {
+  const tokenExists = localStorage.getItem("authToken");
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!isAuthenticated || !authToken || !tokenExists) {
     return <Navigate to="/sign-in" />;
   }
 
