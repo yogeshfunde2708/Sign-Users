@@ -50,7 +50,7 @@ function UsersData() {
       toast.error(message);
     }
   };
-  
+
   const deleteUser = async (id) => {
     try {
       const { data } = await AuthApi.delete(`/delete-user/${id}`);
@@ -117,6 +117,7 @@ function UsersData() {
                   <div className="d-flex gap-2">
                     <Link
                       className="btn btn-warning btn-sm"
+                      to={`/edit-user/${user.id}`}
                     >
                       Edit
                     </Link>

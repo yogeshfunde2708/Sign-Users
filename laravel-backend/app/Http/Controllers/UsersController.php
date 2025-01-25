@@ -91,4 +91,34 @@ class UsersController extends Controller
         }
         return response($result, $status);
     }
+
+    public function getUserById($id)
+    {
+        $result = [];
+        $result['status'] = false;
+        $status = $this->statusCodeArr["server_error"];
+        try {
+            $user = User::findOrFail($id);
+            $result["user"] = $user;
+            $result['status'] = true;
+            $status = $this->statusCodeArr["ok"];
+        } catch (\Exception $e) {
+            $result["message"] = $e->getMessage();
+        }
+        return response($result, $status);
+    }
+
+    public function getAddUserData(Request $request)
+    {
+        $result = [];
+        $result['status'] = false;
+        $status = $this->statusCodeArr["server_error"];
+        try {
+            $result['status'] = true;
+            $status = $this->statusCodeArr["ok"];
+        } catch (\Exception $e) {
+            $result["message"] = $e->getMessage();
+        }
+        return response($result, $status);
+    }
 }

@@ -16,6 +16,8 @@ Route::group(["middleware" => [ForceJson::class]], function () {
         Route::post("/save-user-data", [UsersController::class, "saveUserData"]);
         Route::get("/users-list", [UsersController::class, "getUsersList"]);
         Route::delete("/delete-user/{id}", [UsersController::class, "deleteUser"]);
+        Route::get("/get-user/{id}", [UsersController::class, "getUserById"]);
+        Route::get("/add-user-data", [UsersController::class, "getAddUserData"]);
     });
 
 });

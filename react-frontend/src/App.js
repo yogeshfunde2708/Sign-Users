@@ -60,6 +60,14 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route
+          path="/edit-user/:user_id"
+          element={
+            <ProtectedRoute>
+              <CreateorUpdateUser />
+            </ProtectedRoute>
+          }
+        />
           </Routes>
         </div>
       </div>

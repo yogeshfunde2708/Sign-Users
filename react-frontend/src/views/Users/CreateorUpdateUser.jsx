@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useForm from "../../hooks/useForm";
 import { AuthApi } from "../../utils/FunctionAPI";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -16,6 +16,7 @@ const formObj = {
 
 function CreateorUpdateUser() {
   const navigate = useNavigate();
+  const { user_id = null } = useParams();
 
   const submitForm = async () => {
     try {
@@ -43,7 +44,54 @@ function CreateorUpdateUser() {
     }
   };
 
-  const { handleChange, handleSubmit, values } = useForm(submitForm, formObj);
+  const getUserById = async () => {
+    try {
+      const { data } = await AuthApi.get(`/get-user/${user_id}`);
+      if (data && data.status && data.user) {
+        const { user } = data;
+        setValues({
+          ...formObj,
+          id: user_id,
+          name: user.name,
+          email: user.email,
+          username: user.username,
+        });
+      }
+    } catch (error) {
+      let message = "Something went wrong!!";
+      if (error?.response?.data) {
+        let responseMsg = error.response.data.message
+          ? error.response.data.message
+          : null;
+        message = responseMsg ? responseMsg : message;
+      }
+      toast.error(message);
+    } 
+  };
+
+  const getAddUserData = async () => {
+    try {
+      const { data } = await AuthApi.get(`/add-user-data`);
+      if (data && data.status && data.roles) {
+      }
+    } catch (error) {
+      let message = "Something went wrong!";
+      if (error?.response?.data) {
+        let responseMsg = error.response.data.message
+          ? error.response.data.message
+          : null;
+        message = responseMsg ? responseMsg : message;
+      }
+      toast.error(message);
+    }
+  };
+  const { handleChange, handleSubmit, values, setValues } = useForm(submitForm, formObj);
+  useEffect(() => {
+    getAddUserData();
+    if (user_id) {
+      getUserById();
+    }
+  }, [user_id]);
   return (
     <>
     <ToastContainer position="top-right" autoClose={5000} />
@@ -102,7 +150,7 @@ function CreateorUpdateUser() {
                 className="form-control"
                 id="username"
                 name="username"
-                lue={values.username ? values.username : ""}
+                value={values.username ? values.username : ""}
                 onChange={handleChange}
               />
             </div>
