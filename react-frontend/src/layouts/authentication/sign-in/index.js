@@ -49,7 +49,7 @@ const Login = () => {
       <ToastContainer position="top-right" autoClose={5000} />
       <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div className="card shadow-lg">
               <div className="card-header text-center">
                 <h3>Sign In</h3>

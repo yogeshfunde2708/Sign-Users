@@ -69,6 +69,7 @@ function UsersData() {
     getUsers();
   }, [tableMeta.per_page, page, orderBy, order]);
 
+  
   return (
     <div
       className="users-data-container d-flex flex-column"

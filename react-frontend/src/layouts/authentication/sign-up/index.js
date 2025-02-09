@@ -53,7 +53,7 @@ const Register = () => {
       <ToastContainer position="top-right" autoClose={5000} />
       <div className="container mt-5">
         <div className="row justify-content-center">
-          <div className="col-md-6">
+          <div className="col-md-5 custom-width" >
             <div className="card shadow-lg">
               <div className="card-header text-center">
                 <h3>Sign Up</h3>
@@ -152,7 +152,7 @@ const Register = () => {
                 </form>
                 <div className="mt-3 text-center">
                   <p>
-                  Already have an account? <Link to="/sign-in">Sign Up</Link>
+                  Already have an account? <Link to="/sign-in">Sign In</Link>
                   </p>
                 </div>
               </div>
